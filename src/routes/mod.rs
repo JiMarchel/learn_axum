@@ -12,14 +12,21 @@ use axum::{
     routing::{get, post},
     Router,
 };
+use hyper::Method;
 use path_variables::path_variables;
 use query_params::query_params;
+use tower_http::cors::{Any, CorsLayer};
 
 pub fn create_routes() -> Router {
+    let cors = CorsLayer::new()
+        .allow_methods([Method::GET])
+        .allow_origin(Any);
+
     axum::Router::new()
         .route("/", get(hello_wib))
         .route("/user/:user_id/team/:team_id", get(path_variables))
         .route("/query_params", get(query_params))
         .route("/body_string", post(body_str))
         .route("/body_json", post(body_json))
+        .layer(cors)
 }
