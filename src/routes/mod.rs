@@ -1,3 +1,4 @@
+mod always_errors;
 mod body_json;
 mod body_string;
 mod hello;
@@ -6,6 +7,7 @@ mod middleware_message;
 mod path_variables;
 mod query_params;
 
+use always_errors::always_errors;
 use body_json::body_json;
 use body_string::body_str;
 use hello::hello_wib;
@@ -45,4 +47,5 @@ pub fn create_routes() -> Router {
         .layer(cors)
         .layer(Extension(shared_data))
         .route("/middleware_custom_header", get(middleware_custom_header))
+        .route("/error", get(always_errors))
 }
