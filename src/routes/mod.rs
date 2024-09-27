@@ -2,6 +2,7 @@ mod always_errors;
 mod body_json;
 mod body_string;
 mod hello;
+mod json_response;
 mod middleware_custom_header;
 mod middleware_message;
 mod path_variables;
@@ -17,6 +18,7 @@ use axum::{
     Extension, Router,
 };
 use hyper::Method;
+use json_response::json_response;
 use middleware_custom_header::middleware_custom_header;
 use middleware_message::middleware_message;
 use path_variables::path_variables;
@@ -42,6 +44,7 @@ pub fn create_routes() -> Router {
         .route("/user/:user_id/team/:team_id", get(path_variables))
         .route("/query_params", get(query_params))
         .route("/middleware_message", get(middleware_message))
+        .route("/json_response", get(json_response))
         .route("/body_string", post(body_str))
         .route("/body_json", post(body_json))
         .layer(cors)
